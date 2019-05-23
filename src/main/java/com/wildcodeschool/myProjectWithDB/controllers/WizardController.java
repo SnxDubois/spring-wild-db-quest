@@ -1,5 +1,6 @@
 package com.wildcodeschool.myProjectWithDB.controllers;
 
+import com.wildcodeschool.myProjectWithDB.repositories.SchoolRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -61,5 +62,10 @@ public class WizardController {
                 isMuggle != null ? isMuggle : wizard.isMuggle()
         );
         return WizardRepository.selectById(id);
+    }
+
+    @DeleteMapping("/api/wizards/{id}")
+    public void delete(@PathVariable int id) {
+        WizardRepository.delete(id);
     }
 }

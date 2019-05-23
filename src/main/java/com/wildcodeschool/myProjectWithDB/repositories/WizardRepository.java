@@ -174,4 +174,25 @@ public class WizardRepository {
             );
         }
     }
+
+    public static int delete(int id) {
+        try(
+                Connection connection = DriverManager.getConnection(
+                        DB_URL, DB_USER, DB_PASSWORD
+                );
+                PreparedStatement statement = connection.prepareStatement(
+                        "DELETE FROM wizard WHERE id=?"
+                );
+        ) {
+            statement.setInt(1, id);
+
+            return statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "", e
+            );
+        }
+
+    }
 }
