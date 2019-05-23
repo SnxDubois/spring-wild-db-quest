@@ -39,4 +39,27 @@ public class WizardController {
         );
         return WizardRepository.selectById(idGeneratedByInsertion);
     }
+
+    @PutMapping("/api/wizards/{id}")
+    public Wizard update(
+            @PathVariable int id,
+            @RequestParam(required = false) String firstname,
+            @RequestParam(required = false) String lastname,
+            @RequestParam(required = false) Date birthday,
+            @RequestParam(required = false, name = "birth_place") String birthPlace,
+            @RequestParam(required = false) String biography,
+            @RequestParam(required = false, name = "is_muggle") Boolean isMuggle
+    ) {
+        Wizard wizard = WizardRepository.selectById(id);
+        WizardRepository.update(
+                id,
+                firstname != null ? firstname : wizard.getFirstname(),
+                lastname != null ? lastname : wizard.getLastname(),
+                birthday != null ? birthday : wizard.getBirthday(),
+                birthPlace != null ? birthPlace : wizard.getBirthPlace(),
+                biography != null ? biography : wizard.getBiography(),
+                isMuggle != null ? isMuggle : wizard.isMuggle()
+        );
+        return WizardRepository.selectById(id);
+    }
 }

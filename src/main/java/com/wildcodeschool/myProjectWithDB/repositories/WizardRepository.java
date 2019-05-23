@@ -140,4 +140,38 @@ public class WizardRepository {
             );
         }
     }
+
+    public static int update(
+            int id,
+            String firstname,
+            String lastname,
+            Date birthday,
+            String birthPlace,
+            String biography,
+            Boolean isMuggle
+    ) {
+        try(
+                Connection connection = DriverManager.getConnection(
+                        DB_URL, DB_USER, DB_PASSWORD
+                );
+                PreparedStatement statement = connection.prepareStatement(
+                        "UPDATE wizard SET firstname=?, lastname=?, birthday=?, birth_place=?, biography=?, is_muggle=? WHERE id=?"
+                )
+        ) {
+            statement.setString(1, firstname);
+            statement.setString(2, lastname);
+            statement.setDate(3, birthday);
+            statement.setString(4, birthPlace);
+            statement.setString(5, biography);
+            statement.setBoolean(6, isMuggle);
+            statement.setInt(7, id);
+
+            return statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "", e
+            );
+        }
+    }
 }
